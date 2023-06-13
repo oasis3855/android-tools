@@ -27,7 +27,7 @@
         android:fontFamily="monospace"
         android:text="HH:MM:SS"
         android:textColor="@color/light_gray"
-        android:textSize="54sp"
+        android:textSize="90sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_1" />
