@@ -16,3 +16,10 @@ Last Updated : Jun. 2023
 
 [ソフトウエアのダウンロードおよびドキュメントはこちら](SimpleDeskClock/README.md)
 
+
+## Android 大気汚染物質広域監視システム「そらまめ君」の簡易受信アプリ
+
+環境省の大気汚染物質広域監視システム「そらまめ君」がAPIとして公開しているjsonデータを読み込んで画面に表示するアプリ
+
+[ソフトウエアのダウンロードおよびドキュメントはこちら](Webtool_SoramameReceive/README.md)
+
