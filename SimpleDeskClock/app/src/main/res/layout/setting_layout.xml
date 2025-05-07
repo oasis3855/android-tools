@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="0dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textLabelTitle01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="バックライト制御 常時ON時間帯"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editText_TimeBklightOnStart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textSize="12sp"
+            android:hint="HH:MM"
+            android:inputType="none" />
+
+        <TextView
+            android:id="@+id/textLabel_TimeBetween"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=" 〜 "
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/editText_TimeBklightOnEnd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textSize="12sp"
+            android:hint="HH:MM"
+            android:inputType="none" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textLabel_LightSensorValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="照度しきい値(Lux)"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/editText_LightSensorValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:hint="0.0000"
+            android:inputType="numberDecimal"
+            android:digits="0123456789."/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textLabel_LcdOnBrightness"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LCD ON輝度(0-1.0)"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/editText_LcdOnBrightness"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:hint="0.0000"
+            android:inputType="numberDecimal"
+            android:digits="0123456789."/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textLabel_LcdOffBrightness"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LCD OFF輝度(0-1.0)"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/editText_LcdOffBrightness"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:hint="0.0000"
+            android:inputType="numberDecimal"
+            android:digits="0123456789."/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textLabel_FontSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="フォントサイズ"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/editText_FontSize_Date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:hint="0"
+            android:inputType="number"
+            android:digits="0123456789"/>
+        <EditText
+            android:id="@+id/editText_FontSize_Time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:hint="0"
+            android:inputType="number"
+            android:digits="0123456789"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_KeepScreenOn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LCD Sleep"
+            android:textSize="12sp" />
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_DebugLog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Logcat"
+            android:textSize="12sp" />
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_DebugScreen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="情報表示"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
