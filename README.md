@@ -5,10 +5,16 @@
 <br />
 <br />
 
-Last Updated : Jun. 2023
+Last Updated : Jun. 2025
 
 <br />
 <br />
+
+## Android 気象庁アメダスJSON受信テストプログラム
+
+気象庁のアメダスJSONデータを読み込んで画面表示するテストプログラム
+
+[ソフトウエアのダウンロードおよびドキュメントはこちら](./AmedasJsonTest01/README.md)
 
 ## Android シンプル デスク クロック
 
