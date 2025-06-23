@@ -908,6 +908,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try {
                 URL url = new URL("https://www.jma.go.jp/bosai/amedas/const/amedastable.json");
                 connection = (HttpURLConnection) url.openConnection();
+//                if(android.os.Build.VERSION.SDK_INT <= 19) {
+//                    // TLS 1.2 まで対応可。HttpURLConnectionをHttpsURLConnectionに変更する
+//                    SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+//                    sslContext.init(null, null, null);
+//                    connection.setSSLSocketFactory(sslContext.getSocketFactory());
+//                }
                 connection.setConnectTimeout(5000); // timeout 5 sec
                 connection.setReadTimeout(5000);    // timeout 5 sec
                 connection.setRequestMethod("GET");

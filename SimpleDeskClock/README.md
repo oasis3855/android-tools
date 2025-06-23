@@ -9,6 +9,7 @@ Last Updated : June 2025
 
 - [ソフトウエアのダウンロード](#ソフトウエアのダウンロード)
 - [概要](#概要)
+  - [設定画面](#設定画面)
 - [実装されている機能](#実装されている機能)
 - [動作確認済み](#動作確認済み)
 - [バージョンアップ情報](#バージョンアップ情報)
@@ -37,6 +38,14 @@ Handleを使い1秒毎に画面更新するアクティビティ、画面タッ�
 
 気象庁アメダスの温度・湿度・降水量の表示も可能。
 
+### 設定画面
+
+![画面例](readme_pics/simpledeskclock-sampleview-setting01.jpg)
+<br/>機能設定画面
+
+![画面例](readme_pics/simpledeskclock-sampleview-setting02.jpg)
+<br/>気象庁アメダス観測地点の選択画面（地点名の部分一致検索機能付き）
+
 <br />
 <br />
 
@@ -61,10 +70,14 @@ Handleを使い1秒毎に画面更新するアクティビティ、画面タッ�
 
 ## 動作確認済み
 
+- Android 4 (気象庁アメダス受信機能は動作しない)
+- Android 5
 - Android 7
 - Android 10
 - Android 11
 - Android 13 
+
+API 19 (Android 4.x以下) は、SSL実装がTSL 1.2以下のため、気象庁WebのTSL 1.3サイトにアクセスできない。
 
 <br />
 <br />
