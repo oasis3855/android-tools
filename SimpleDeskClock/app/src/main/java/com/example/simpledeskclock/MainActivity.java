@@ -55,6 +55,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
 
     // 画面の明るさ設定値 0.0-1.0（バックライトON）
@@ -111,6 +112,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String stationName_Selected = "";
     // AMEDASデータ受信・表示を有効化するか
     private boolean enableAmedasReceive = false;
+    // AMEDASデータJSONのユーザ指定URLを有効化するか
+    private boolean enableAmedasUserUrl = false;
+    // AMEDASデータJSONのユーザ指定URL
+    private String amedasUserUrl = "";
     // AMEDASデータを表示用1行文字列にしたもの
     private String amedasString = "";
     // 前回、AMEDASデータにアクセスした時刻
@@ -197,9 +202,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 // 5秒ごとにプロパティ表示更新、照度センサーおよび充電状態によってバックライトON・OFF制御をする
                 if (checkEnvInterval % CHECK_ENV_INTERVAL == 0) {
-                    // AMEDASデータ受信(10分ごと)
+                    // 前回のAMEDASデータ受信からの経過秒数
                     long dulationLastAmedasReceive = Calendar.getInstance().getTimeInMillis() - calendarLastAmedasReceive.getTimeInMillis();
-                    if (enableAmedasReceive && dulationLastAmedasReceive / 1000 / 60 >= 10 && !stationNo_Selected.isEmpty()) {
+                    // AMEDASデータ受信(10分ごと)。観測地点No（stationNo_Selected）が入力されている場合、またはユーザURLが有効の場合（enableAmedasUserUrl）
+                    if (enableAmedasReceive && dulationLastAmedasReceive / 1000 / 60 >= 10 && (!stationNo_Selected.isEmpty() || enableAmedasUserUrl)) {
+                        // 最終のAMEDASデータ受信時刻を現在時刻にアップデートする
                         calendarLastAmedasReceive = Calendar.getInstance();
                         fetchWeatherData(stationNo_Selected);
                     }
@@ -543,6 +550,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final EditText editText_StationName = dlgView.findViewById(R.id.editText_StationName);
         editText_StationName.setText(stationName_Selected);
 
+        final SwitchMaterial switchAmedasUserUrl = dlgView.findViewById(R.id.switch_AmadasUserUrl);
+        switchAmedasUserUrl.setChecked(enableAmedasUserUrl);
+
+        final EditText editText_amedasUserUrl = dlgView.findViewById(R.id.editText_AmedasUserUrl);
+        editText_amedasUserUrl.setText(amedasUserUrl);
+
         // テキストボックスをクリックしたときの時刻設定ダイアログの表示
         CustomizeEditText_TimePickerDialog(textTimeBklightOnStart);
         CustomizeEditText_TimePickerDialog(textTimeBklightOnEnd);
@@ -664,6 +677,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         enableAmedasReceive = switchAmedasReceive.isChecked();
                         stationNo_Selected = String.valueOf(editText_StationNo.getText());
                         stationName_Selected = String.valueOf(editText_StationName.getText());
+                        enableAmedasUserUrl = switchAmedasUserUrl.isChecked();
+                        amedasUserUrl = String.valueOf(editText_amedasUserUrl.getText());
 
                         // 共有環境設定ファイル(SharedPreferences)に設定値を保存する
                         SavePreference();
@@ -749,18 +764,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @SuppressLint("DefaultLocale")
             @Override
             public void run() {
-                // **
-                // Android API 25以前の日時取得方法
-                // 現在の日時を取得
-                Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
-                String yyyymmdd = dateFormat.format(calendar.getTime());
-                // 最新の3時間区分（0, 3, 6, ... 21）を計算し、ゼロパディング
-                String h3Formatted = String.format("%02d", (calendar.get(Calendar.HOUR_OF_DAY) / 3) * 3);
+                String urlStr = "";
+                if (enableAmedasUserUrl) {
+                    // ユーザ指定URLを使う場合
+                    if (!amedasUserUrl.isEmpty()) urlStr = amedasUserUrl;
+                    else return;
+                } else {
+                    // 気象庁AMEDASデータを使う場合
 
-                // JSONデータのURL
-                String urlCoreStr = stationId + "/" + yyyymmdd + "_" + h3Formatted + ".json";
-                String urlStr = "https://www.jma.go.jp/bosai/amedas/data/point/" + urlCoreStr;
+                    // Android API 25以前の日時取得方法
+                    // 現在の日時を取得
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+                    String yyyymmdd = dateFormat.format(calendar.getTime());
+                    // 最新の3時間区分（0, 3, 6, ... 21）を計算し、ゼロパディング
+                    String h3Formatted = String.format("%02d", (calendar.get(Calendar.HOUR_OF_DAY) / 3) * 3);
+
+                    // JSONデータのURL
+                    String urlCoreStr = stationId + "/" + yyyymmdd + "_" + h3Formatted + ".json";
+                    urlStr = "https://www.jma.go.jp/bosai/amedas/data/point/" + urlCoreStr;
+                }
 
                 HttpURLConnection connection = null;
                 InputStream inputStream = null;
@@ -1025,6 +1048,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.putBoolean("enableAmedasReceive", enableAmedasReceive);
         editor.putString("stationNo_Selected", stationNo_Selected);
         editor.putString("stationName_Selected", stationName_Selected);
+        editor.putBoolean("enableAmedasUserUrl", enableAmedasUserUrl);
+        editor.putString("amedasUserUrl", amedasUserUrl);
 
         // 非同期保存
         editor.apply();
@@ -1049,7 +1074,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         enableAmedasReceive = pref.getBoolean("enableAmedasReceive", false);
         stationNo_Selected = pref.getString("stationNo_Selected", "");
         stationName_Selected = pref.getString("stationName_Selected", "");
-
+        enableAmedasUserUrl = pref.getBoolean("enableAmedasUserUrl", false);
+        amedasUserUrl = pref.getString("amedasUserUrl", "");
     }
-
 }
